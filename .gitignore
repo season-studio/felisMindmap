@@ -1,0 +1,8 @@
+node_modules
+.vscode-test/
+*.vsix
+.addonDist/**
+.webview/index.js
+.webview/index.js.map
+.webview/sw.js
+.webview/sw.js.map

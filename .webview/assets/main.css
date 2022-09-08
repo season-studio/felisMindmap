@@ -1,0 +1,260 @@
+html {
+    height: 100%;
+    background-color: #fff;
+    font-size: 100px;
+    color: #333;
+}
+
+body {
+    --safe-left: 0;
+    --safe-left: 0;
+    --safe-right: 0;
+    --safe-right: 0;
+    --safe-top: 0;
+    --safe-top: 0;
+    --safe-bottom: 0;
+    --safe-bottom: 0;
+    --bar-size: 32px;
+
+    margin: 0;
+    min-height: 100%;
+    box-sizing: border-box;
+    background: #fff; /* linear-gradient(to bottom, #443030, #574946) no-repeat; */
+    background-size: 100%;
+    background-attachment: fixed;
+
+    font-size: 0.13rem;
+    color: #333;
+}
+
+code {
+    color: #333;
+}
+
+@supports (top: constant(safe-area-inset-top)) or (top: env(safe-area-inset-top)) {
+    body {
+        --safe-left: constant(safe-area-inset-left);
+        --safe-left: env(safe-area-inset-left);
+        --safe-right: constant(safe-area-inset-right);
+        --safe-right: env(safe-area-inset-right);
+        --safe-top: constant(safe-area-inset-top);
+        --safe-top: env(safe-area-inset-top);
+        --safe-bottom: constant(safe-area-inset-bottom);
+        --safe-bottom: env(safe-area-inset-bottom);
+    }
+}
+
+@media screen and (orientation:portrait) {
+    body {
+        padding: var(--safe-top) var(--safe-right) var(--safe-bottom) var(--safe-left);
+    }
+}
+
+@media screen and (orientation:landscape) {
+    body {
+        padding: var(--safe-top) var(--safe-right) var(--safe-bottom) var(--safe-left);
+    }
+}
+
+::-webkit-scrollbar {
+    width: 17px;
+    height: 17px;
+    background: transparent;
+}
+
+::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb
+{
+	-webkit-border-radius: 17px;
+    border-radius: 17px;
+    background: rgba(157,157,157,0.1) content-box;
+    border: 5px solid transparent;
+}
+
+:hover::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: rgba(0,0,0,0.3) content-box;
+}
+
+.mindmap-viewer {
+    box-sizing: border-box;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+}
+
+.mindmap-menubar {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    /*
+    left: 50%;
+    transform: translate(-50%, 0);
+    */
+    border-radius: 6px;
+    z-index: 99;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    font-size: 0.15rem;
+    background-image: linear-gradient(to top, #ddd 0%, #f0f0f0 10%, #fcfcfc 90%, #fff 100%);
+    box-shadow: 0px 0px 3px #ccc;
+    border: 1px solid #ccc;
+    user-select: none;
+    /*
+    max-width: calc(100% - 6px);
+    overflow: hidden;
+    */
+}
+
+.mindmap-menubar > .listitem {
+    padding: 6px;
+    --padding: 6px;
+    border-radius: 6px;
+    position: relative;
+    white-space: nowrap;
+}
+
+.mindmap-menubar > .listitem:hover {
+    background: linear-gradient(0deg,rgba(0,117,255,.9) 26%,rgba(0,157,255,.9) 90%,rgba(0,170,255,.9));
+    color: #fff;
+}
+
+.mindmap-menugroup {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    border-radius: 6px;
+    z-index: 99;
+    flex-direction: column;
+    align-items: stretch;
+    flex-wrap: nowrap;
+    background-image: linear-gradient(to top, #ddd 0%, #f0f0f0 10%, #fcfcfc 90%, #fff 100%);
+    box-shadow: 0px 0px 3px #ccc;
+    border: 1px solid #ccc;
+    user-select: none;
+}
+
+.mindmap-menugroup[d-menugroup-right] {
+    top: 0 !important;
+    left: 100% !important;
+}
+
+[d-menu-active] *:hover > .mindmap-menugroup {
+    display: flex;
+}
+
+.mindmap-menugroup > .listitem {
+    padding: 0.3em 1.5em 0.3em 1.5em;
+    border-radius: 6px;
+    color: #333;
+    position: relative;
+    white-space: nowrap;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+.mindmap-menugroup[d-menu-image] > .listitem {
+    padding: 0.3em 1.5em 0.3em 2em !important;
+}
+
+.mindmap-menugroup > .listitem:hover {
+    background: linear-gradient(0deg,rgba(0,117,255,.9) 26%,rgba(0,157,255,.9) 90%,rgba(0,170,255,.9));
+    color: #fff;
+}
+
+.mindmap-menugroup > .listitem:hover > * {
+    color: #fff;
+}
+
+/*
+.mindmap-menugroup > .listitem:active {
+    background: linear-gradient(0deg,rgba(0,170,255,.9) 26%,rgba(0,157,255,.9) 90%,rgba(0,117,255,.9));
+    color: #fff;
+}
+*/
+
+.listitem[d-menu-suffix]::after {
+    content: attr(d-menu-suffix);
+    position: absolute;
+    right: 0px;
+    top: 50%;
+    transform: translate(-3px, -50%);
+}
+
+.listitem > img {
+    position: absolute;
+    width: 1em;
+    height: 1em;
+    left: 0.7em;
+    top: 50%;
+    transform: translate(0, -50%);
+}
+
+.listitem > code {
+    flex: 1;
+    text-align: right;
+    padding-left: 1em;
+    font-family: 'Courier New', monospace;
+}
+
+.separater-line {
+    width: calc(100% - 1em);
+    height: 2px;
+    border: 0;
+    box-sizing: border-box;
+    background: linear-gradient(180deg, #ccc, #fff);
+    margin-left: 0.5em;
+}
+
+.separater-line[d-horizontal] {
+    height: 100%;
+    width: 2px;
+    border: 0;
+    background: linear-gradient(90deg, #ccc, #fff);
+    margin-left: 0;
+    overflow: hidden;
+}
+
+*:focus .listitem {
+    border: 1px solid #000;
+}
+
+.sheet-top-menu {
+    display: flex;
+}
+
+.sheet-top-menu > span {
+    display:inline-block;
+    overflow: hidden;
+    white-space: nowrap; 
+    text-overflow: ellipsis;
+    padding: 0;
+    padding-left: 1.5em;
+    max-width: 1.5em;
+    box-sizing: border-box;
+    background: left / contain no-repeat url("./icon/sheets.png");
+}
+
+.sheet-top-menu:hover > span {
+    -webkit-transition: max-width 1s;
+    transition: max-width 1s;
+    max-width: 20em;
+    padding-left: 0;
+    background: unset;
+}

@@ -1,0 +1,16 @@
+.addonDist/**
+.debug/**
+.rollup/**
+.vscode/**
+.vscode-test/**
+src/addons/**
+src/thirdpart/**
+src/webview/**
+test/**
+.gitignore
+.gitmodules
+.yarnrc
+vsc-extension-quickstart.md
+**/jsconfig.json
+**/*.map
+**/.eslintrc.json

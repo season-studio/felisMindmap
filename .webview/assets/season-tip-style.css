@@ -1,0 +1,280 @@
+.-season-tip-container {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 6px 0px;
+    overflow: hidden;
+}
+
+.-season-tip-box {
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    box-shadow: 0px 0px 6px rgba(128, 128, 128, 0.6);
+    font-size: 13px;
+    color: #666;
+    padding: 6px;
+    margin: 6px;
+    border-radius: 6px;
+    opacity: 0;
+}
+
+.-season-tip-icon {
+    width: 20px;
+    height: 20px;
+    background-size: 100% 100%;
+}
+
+.-season-tip-text {
+    height: auto;
+    margin: 0px 3px;
+    font-size: 13px;
+}
+
+.-season-tip-close-button {
+    width: 20px;
+    height: 20px;
+    background: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgOTYgOTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIGZpbGw9IiNkZGQiPg0KICAgIDxwYXRoIGQ9Ik00Ny45ODUgMTBDMjcuMDA5MiA5Ljk5OTQ1IDEwLjAwNDYgMjcuMDAzMiAxMC4wMDQgNDcuOTc5IDEwLjAwMzQgNjguOTU0OCAyNy4wMDcyIDg1Ljk1OTQgNDcuOTgzIDg1Ljk2IDY4Ljk1ODggODUuOTYwNSA4NS45NjM0IDY4Ljk1NjggODUuOTY0IDQ3Ljk4MSA4NS45NjQgNDcuOTc5NyA4NS45NjQgNDcuOTc4MyA4NS45NjQgNDcuOTc3IDg1Ljk3MTcgMjcuMDEwNiA2OC45ODE0IDEwLjAwNzcgNDguMDE1IDEwIDQ4LjAwNSA5Ljk5OTk5IDQ3Ljk5NSA5Ljk5OTk5IDQ3Ljk4NSAxMFpNNjQuOTU1IDYwLjE2OSA2MC4xNzQgNjQuOTUgNDcuOTg1IDUyLjc1OSAzNS44IDY0Ljk0OCAzMS4wMTkgNjAuMTY3IDQzLjIgNDcuOTc3IDMxLjAxNCAzNS43ODggMzUuOCAzMS4wMDcgNDcuOTg1IDQzLjIgNjAuMTc0IDMxLjAwNyA2NC45NTUgMzUuNzg4IDUyLjc2NiA0Ny45NzdaIi8+DQo8L3N2Zz4=") no-repeat;
+    background-size: 100% 100%;
+}
+
+[d-season-tip-type="normal"] .-season-tip-icon {
+    width: 0px;
+    background: transparent;
+}
+
+[d-season-tip-type="info"] .-season-tip-icon {
+    background: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgOTYgOTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIGZpbGw9IiMwMGEyZTgiPg0KICAgIDxwYXRoIGQ9Ik00OCAxMEMyNyAxMCAxMCAyNyAxMCA0OCAxMCA2OSAyNyA4NiA0OCA4NiA2OSA4NiA4NiA2OSA4NiA0OCA4NiAyNyA2OSAxMCA0OCAxMFpNNDYgMjBDNDguOCAyMCA1MSAyMi4yIDUxIDI1IDUxIDI3LjggNDguOCAzMCA0NiAzMCA0My4yIDMwIDQxIDI3LjggNDEgMjUgNDEgMjIuMiA0My4yIDIwIDQ2IDIwWk01OCA3NiAzOCA3NiAzOCA3MCA0NSA3MCA0NSA0MCAzOSA0MCAzOSAzNCA1MSAzNCA1MSA0MCA1MSA3MCA1OCA3MCA1OCA3NloiLz4NCjwvc3ZnPg==")  no-repeat;
+}
+
+[d-season-tip-type="warn"] .-season-tip-icon {
+    background: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgOTYgOTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIGZpbGw9IiNmZmM5MGUiPg0KICAgIDxwYXRoIGQ9Ik05MC42IDgwIDUxLjUgMTJDNTAgOS4zIDQ2LjEgOS4zIDQ0LjYgMTJMNS40IDgwQzMuOSA4Mi43IDUuOCA4NiA4LjkgODZMNDggODYgODcuMSA4NkM5MC4yIDg2IDkyLjEgODIuNyA5MC42IDgwWk00NSAyOCA1MSAyOCA1MSA2MyA0NSA2MyA0NSAyOFpNNDggNzdDNDUuMiA3NyA0MyA3NC44IDQzIDcyIDQzIDY5LjIgNDUuMiA2NyA0OCA2NyA1MC44IDY3IDUzIDY5LjIgNTMgNzIgNTMgNzQuOCA1MC44IDc3IDQ4IDc3WiIvPg0KPC9zdmc+")  no-repeat;
+}
+
+[d-season-tip-type="error"] .-season-tip-icon {
+    background: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgOTYgOTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIGZpbGw9IiNmMDAiPg0KICAgIDxwYXRoIGQ9Ik00Ny45ODUgMTBDMjcuMDA5MiA5Ljk5OTQ1IDEwLjAwNDYgMjcuMDAzMiAxMC4wMDQgNDcuOTc5IDEwLjAwMzQgNjguOTU0OCAyNy4wMDcyIDg1Ljk1OTQgNDcuOTgzIDg1Ljk2IDY4Ljk1ODggODUuOTYwNSA4NS45NjM0IDY4Ljk1NjggODUuOTY0IDQ3Ljk4MSA4NS45NjQgNDcuOTc5NyA4NS45NjQgNDcuOTc4MyA4NS45NjQgNDcuOTc3IDg1Ljk3MTcgMjcuMDEwNiA2OC45ODE0IDEwLjAwNzcgNDguMDE1IDEwIDQ4LjAwNSA5Ljk5OTk5IDQ3Ljk5NSA5Ljk5OTk5IDQ3Ljk4NSAxMFpNNjQuOTU1IDYwLjE2OSA2MC4xNzQgNjQuOTUgNDcuOTg1IDUyLjc1OSAzNS44IDY0Ljk0OCAzMS4wMTkgNjAuMTY3IDQzLjIgNDcuOTc3IDMxLjAxNCAzNS43ODggMzUuOCAzMS4wMDcgNDcuOTg1IDQzLjIgNjAuMTc0IDMxLjAwNyA2NC45NTUgMzUuNzg4IDUyLjc2NiA0Ny45NzdaIi8+DQo8L3N2Zz4=") no-repeat;
+}
+
+.-season-tip-mask-container {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    align-content: center;
+    opacity: 0;
+    user-select: none;
+}
+
+.-season-tip-fadein {
+    -webkit-transition: opacity 0.5s;
+    transition: opacity 0.5s;
+    opacity: 1;
+}
+
+.-season-tip-fadeout {
+    -webkit-transition: opacity var(--fadeout-time, 0.5s);
+    transition: opacity var(--fadeout-time, 0.5s);
+    opacity: 0;
+}
+
+.-season-tip-dialog {
+    font-size: 17px;
+    border-radius: 6px;
+    background-image: linear-gradient(to top, #ddd 0%, #f0f0f0 10%, #fcfcfc 90%, #fff 100%);
+    box-shadow: 0px 0px 6px rgba(128, 128, 128, 0.6);
+    display: flex;
+    flex-direction: column;
+    padding: 26px;
+    color: #000;
+}
+
+.-season-confirm-box {
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    align-content: center;
+}
+
+.-season-confirm-info-line {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    justify-items: flex-start;
+    align-items: flex-start;
+    align-content: center;
+}
+
+.-season-confirm-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    justify-items: flex-start;
+    align-items: flex-start;
+    align-content: flex-start;
+    flex-grow: 1;
+    min-width: 170px;
+    margin: 0px 0px 0px 12px;
+}
+
+.-season-tip-button-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    justify-items: flex-end;
+    align-items: flex-end;
+    align-content: flex-end;
+    width: 100%;
+}
+
+.-season-tip-button {
+    margin: 17px 0px 0px 6px;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    align-content: center;
+    white-space: nowrap;
+    border-radius: 6px;
+    border: solid 1px #ccc;
+    color: #777;
+    min-width: 60px;
+}
+
+.-season-tip-button:hover {
+    color: #40a9ff;
+}
+
+.-season-tip-button:active {
+    border: solid 1px #40a9ff;
+    color: #40a9ff;
+}
+
+.-season-tip-button-default {
+    border: solid 1px #1890ff;
+    background-color: #1890ff;
+    color: #fff;
+}
+
+.-season-tip-button-default:hover {
+    border: solid 1px #40a9ff;
+    background-color: #40a9ff;
+    color: #fff;
+}
+
+.-season-tip-button-default:active {
+    border: solid 1px #096DD9;
+    background-color: #096DD9;
+    color: #fff;
+}
+
+.-season-tip-input {
+    height: 26px;
+    border: 1px solid #999;
+    outline: none;
+}
+
+.-season-tip-input:focus {
+    border-color: rgba(0, 157, 255);
+}
+
+.-season-tip-popup-box {
+    position: fixed;
+    padding: 6px;
+    font-size: 0.8em;
+    align-items: center;
+    outline: none;
+    -webkit-user-select: none;
+    user-select: none;
+    margin: 3px;
+}
+
+.-season-tip-popup-box [d-select-index] {
+    margin: 0;
+    padding: 2px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.-season-tip-popup-box [d-select-index]:hover {
+    background-image: linear-gradient(to top, #07c 10%, #09f 90%);
+    color: #fff;
+}
+
+.-season-tip-popup-box [d-select-index]:active {
+    background-image: linear-gradient(to top, #09f 10%, #07c 90%);
+    color: #fff;
+}
+
+.-season-tip-popup-box [d-select-index] span {
+    flex-grow: 1;
+    padding: 0 3px 0 calc(var(--image-size, 0px) + 3px);
+    border: 0;
+    text-align: center;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.-season-tip-popup-box [d-select-index] img ~ span {
+    padding: 0 3px 0 3px;
+}
+
+.-season-tip-popup-box [d-select-index] img {
+    box-sizing: border-box;
+    height: var(--image-size, 0px);
+    width: var(--image-size, 0px);
+}
+
+.-season-tip-popup-box [d-select-index]:hover img[d-image-invert] {
+    filter: invert(1);
+}
+
+.-season-tip-popup-box [d-select-index]:active img[d-image-invert] {
+    filter: invert(1);
+}
+
+.-season-tip-popup-box [d-separate-horizontal] {
+    margin: 1px 0 1px 0;
+    height: 2px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 0;
+    background-image: linear-gradient(to top, #fff, #ccc);
+}
+
+.-season-tip-popup-box [d-separate-vertical] {
+    margin: 0 1px 0 1px;
+    width: 2px;
+    height: 100%;
+    box-sizing: border-box;
+    border: 0;
+    background-image: linear-gradient(to left, #fff, #ccc);
+}
