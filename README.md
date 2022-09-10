@@ -54,9 +54,13 @@ The shortcuts can be changed in the "Preference" options.
 
 ## Release Notes
 
+### 1.0.1
+- Enable customize the shape of the topic box
+- Enhance compatibility in Safari
+
 ### 1.0.0
 
-Initial release of felisMindmap
+- Initial release of felisMindmap
 
 ## Contact
 Please report the issues on https://github.com/season-studio/felisMindmap/issues
