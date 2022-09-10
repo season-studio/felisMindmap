@@ -4,7 +4,7 @@ import showWaitDialog from "./client/waitDlg";
 
 function initApp() {
     let startWaitDlg = showWaitDialog("Loading...");
-    AppWorker.start("./sw.js")
+    AppWorker.start("./sw.js", { scope: "./" })
     .catch(function(error) {
         console.error("$[Service worker registration failed]", error);
     })

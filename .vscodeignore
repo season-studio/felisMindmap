@@ -3,6 +3,7 @@
 .rollup/**
 .vscode/**
 .vscode-test/**
+node_modules/**
 src/addons/**
 src/thirdpart/**
 src/webview/**

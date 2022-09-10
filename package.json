@@ -97,8 +97,7 @@
   "dependencies": {
     "felisdb": "^1.0.1",
     "jszip": "^3.10.1",
-    "marked": "^4.1.0",
-    "mindmap.svg.js": "^1.0.0"
+    "marked": "^4.1.0"
   },
   "bundleConfigs": {
     "configFile": "./.rollup/bundleConfig.js",
