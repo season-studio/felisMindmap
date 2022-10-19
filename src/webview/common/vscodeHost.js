@@ -54,6 +54,10 @@ export default class VSCodeHost extends EventTarget {
         });
     }
 
+    notifySaveByHost() {
+        return this.sendMessage("execCommand", { hostCommand: "workbench.action.files.save" });
+    }
+
     static onTimeOut(item) {
         item.site?.removeEventListener(item.event, item.fn);
         item.timerID = undefined;

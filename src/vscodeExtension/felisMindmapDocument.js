@@ -173,8 +173,8 @@ module.exports = class FelisMindmapDocument {
      * Get the file path of this document
      * @returns {String} The file path of this document
      */
-    getDocumentFilePath() {
-        return String((((this.uri.scheme === 'file') || this.backupPath) && this.uri.fsPath) || "");
+    getDocumentFilePath(_msg) {
+        return String((((this.uri.scheme === 'file') || ((!_msg || !_msg.ignoreBackupFile) && this.backupPath)) && this.uri.fsPath) || "");
     }
 
     async openAsMindmap(_msg) {
@@ -282,6 +282,10 @@ module.exports = class FelisMindmapDocument {
      */
     async setConfiguration(_msg) {
         (_msg.key && this.context && this.context.globalState) && (await this.context.globalState.update(_msg.key, _msg.value));
+    }
+
+    execCommand(_msg) {
+        return _msg && _msg.hostCommand && vscode.commands.executeCommand(_msg.hostCommand);
     }
     //#endregion
 }

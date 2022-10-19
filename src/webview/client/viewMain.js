@@ -28,7 +28,7 @@ function unregisterTopicEditTiriggerAction(_contentType) {
 
 async function backupWorkspaceInBrowser() {
     let filePath = await hostAdapter.getDocumentFilePath();
-    let blob = await $felisApp.callAction("dumpMindmap-toBlob", ".felis");
+    let blob = await $felisApp.callAction("dumpMindmap-toBlob", ".felis", true);
     await hostAdapter.setConfiguration("last-document", {
         filePath,
         blob,

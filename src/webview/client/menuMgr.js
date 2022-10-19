@@ -10,7 +10,7 @@ import { pickFile } from "../../thirdpart/toolkits/src/fileDlgKit";
 import fileFormats from "../fileFormats";
 import dialog from "../../thirdpart/toolkits/src/tip/dialog";
 import tip from "../../thirdpart/toolkits/src/tip/tip";
-import { getConfiguration, getDocumentFilePath, newMindmap, openMindmap, saveToFile, setConfiguration, setDocumentFilePath, writeToFile } from "../common/hostAdapter";
+import { getConfiguration, getDocumentFilePath, newMindmap, notifySaveByHost, openMindmap, saveToFile, setConfiguration, setDocumentFilePath, writeToFile } from "../common/hostAdapter";
 import { showConfigUI } from "./configUI";
 import showWaitDialog from "./waitDlg";
 
@@ -767,7 +767,7 @@ export class MenuManager {
         }
     }
 
-    static async ["@@dumpMindmap-toBlob"](_type) {
+    static async ["@@dumpMindmap-toBlob"](_type, _keepWorkState) {
         let fileProvider = (fileFormats(_type) || fileFormats(".felis"));
         fileProvider && (typeof fileProvider.constructor === "function") && (fileProvider = new fileProvider.constructor());
         return fileProvider && $felisApp.doc.saveDocument(async () => {
@@ -782,13 +782,14 @@ export class MenuManager {
             let thumbImg = await $felisApp.view.exportImage({
                 type: "png",
                 toBlob: true,
-                fill: "#ffffff"
+                fill: "#ffffff",
+                keepWorkState: !!_keepWorkState
             });
             if (thumbImg && (thumbImg.data instanceof Blob)) {
                 await fileProvider.writeContent("Thumbnails\\thumbnail.png", thumbImg.data);
             }
             return await fileProvider.save("mindmap");
-        });
+        }, _keepWorkState);
     }
 
     static async ["@@saveMindmap-detail"](_fileName, _needPickFile, _replaceSelf) {
@@ -803,10 +804,13 @@ export class MenuManager {
         }
     }
 
-    static async ["@@saveMindmap"]() {
-        let fileName = await getDocumentFilePath();
+    static async ["@@saveMindmap"](_fromHost) {
+        let fileName = await getDocumentFilePath(true);
         if (fileName) {
-            await MenuManager["@@saveMindmap-detail"](fileName);
+            if (("fromHost" === _fromHost) || !await notifySaveByHost())
+            {
+                await MenuManager["@@saveMindmap-detail"](fileName);
+            }
         } else {
             await $felisApp.callAction("saveMindmapAs");
         }

@@ -95,9 +95,9 @@ export async function openMindmap(_cbForOpen) {
     }
 }
 
-export async function getDocumentFilePath() {
+export async function getDocumentFilePath(_ignoreBackupFile) {
     if (host) {
-        let result = await host.sendMessage("getDocumentFilePath");
+        let result = await host.sendMessage("getDocumentFilePath", _ignoreBackupFile && { ignoreBackupFile: true });
         return (result?.result || "");
     } else {
         return docFilePath || "";
@@ -117,7 +117,7 @@ const NotifyActionList = {
         return $felisApp.callAction("saveMindmap-detail", msg.filePath);
     }, 
     save() {
-        return $felisApp.callAction("saveMindmap");
+        return $felisApp.callAction("saveMindmap", "fromHost");
     },
     undo() {
         $felisApp.view.undo();
@@ -127,7 +127,7 @@ const NotifyActionList = {
     },
     async backup(_msg) {
         if (_msg.filePath) {
-            let blob = await $felisApp.callAction("dumpMindmap-toBlob", ".felis");
+            let blob = await $felisApp.callAction("dumpMindmap-toBlob", ".felis", true);
             if (blob instanceof Blob) {
                 await writeToFile(blob, _msg.filePath);
             }
@@ -221,5 +221,34 @@ export async function deleteConfiguration(_key) {
         }
     } catch (err) {
         console.warn("Exception raised in deleting configuration", _key, err);
+    }
+}
+
+export async function notifySaveByHost()
+{
+    try {
+        if (host) {
+            await host.notifySaveByHost();
+            return true;
+        } else {
+            return false;
+        }
+    } catch (err) {
+        console.warn("Exception raised in notifying saving request", err);
+        return false;
+    }
+}
+
+export async function execCommandInHost(_command) {
+    try {
+        if (host) {
+            await host.sendMessage("execCommand", { hostCommand: _command });
+            return true;
+        } else {
+            return false;
+        }
+    } catch (err) {
+        console.warn("Exception raised in executing command", _command, err);
+        return false;
     }
 }
