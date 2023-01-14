@@ -1,4 +1,4 @@
-import { MindmapViewer, Topic } from "mindmap.svg.js";
+import { MindmapViewer, Topic, TopicFactor } from "mindmap.svg.js";
 import { cloneObject } from "../../thirdpart/toolkits/src/cloneObject";
 import { i18n } from "../../thirdpart/toolkits/src/i18n";
 import { confirm } from "../../thirdpart/toolkits/src/tip";
@@ -278,6 +278,19 @@ export class CustomViewer extends MindmapViewer {
 
     get dirty() {
         return this.#historyCursor > this.#historyDirtyThredsold;
+    }
+
+    resetViewer() {
+        let rootTopic = this.rootTopic;
+        if (rootTopic) {
+            let data = rootTopic.exportTopicData();
+            rootTopic.drop(a => a + 1);
+            rootTopic = TopicFactor.generate(this.stageContainer, Topic, data, 0, this.env)
+                    .render()
+                    .queueAction(() => {
+                        rootTopic && rootTopic.showInCenterOfView()
+                    });
+        }
     }
 
     #resetHistory() {

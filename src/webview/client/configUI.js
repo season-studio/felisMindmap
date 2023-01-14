@@ -90,7 +90,12 @@ const ConfigUIOptions = {
         });
         container && container.appendChild(doc);
     },
-    onSelectItem
+    onSelectItem,
+    onclose(_self) {
+        if (_self.$changeAddon) {
+            Promise.resolve().then(() => $felisApp.view.resetViewer());
+        }
+    }
 }
 
 export function showConfigUI() {

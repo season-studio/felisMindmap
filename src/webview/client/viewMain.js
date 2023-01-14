@@ -2,6 +2,7 @@ import { MindmapViewer, DefaultTopicEventActions, DefaultTopicExtensions } from 
 import * as mindmapSVG from "mindmap.svg.js";
 import { i18n } from "../../thirdpart/toolkits/src/i18n";
 import { readonlyMember } from "../../thirdpart/toolkits/src/readonly";
+import * as TipKits from "../../thirdpart/toolkits/src/tip";
 import { CustomDocument } from "./customDocument";
 import { CustomEnvironment } from "./customEnv";
 import { CustomViewer } from "./customViewer";
@@ -13,6 +14,7 @@ import VSCodeHost from "../common/vscodeHost";
 import * as hostAdapter from "../common/hostAdapter";
 import { activeAddons, loadAddons } from "./addons";
 import FileFormats from "../fileFormats";
+import showWaitDialog from "./waitDlg";
 
 const TopicEditTiriggerActions = Object.assign({}, DefaultTopicEventActions);
 
@@ -38,6 +40,26 @@ async function backupWorkspaceInBrowser() {
         defaultAttachments: CustomDocument.DefaultTemplateAttachments
     });
 }
+
+function registerTopicExtensionFactor(_extensionFactor) {
+    let app = $felisApp;
+    if (app && (_extensionFactor instanceof mindmapSVG.TopicExtensionFactor)) {
+        _extensionFactor.register(app.view);
+        app.env.extensionFactors.push(_extensionFactor);
+    }
+}
+
+function unregisterTopicExtensionFactor(_extensionFactor) {
+    let app = $felisApp;
+    if (app && (_extensionFactor instanceof mindmapSVG.TopicExtensionFactor)) {
+        let index = app.env.extensionFactors.indexOf(_extensionFactor);
+        if (index >= 0) {
+            app.env.extensionFactors.splice(index, 1);
+            _extensionFactor.unregister(app.view);
+        }
+    }
+}
+
 
 export async function initViewer(_waitDlg) {
     
@@ -78,9 +100,12 @@ export async function initViewer(_waitDlg) {
     const doc = new CustomDocument(env);
     const view = new CustomViewer(doc, document.querySelector(".mindmap-viewer"));
     const menu = new MenuManager(document.querySelector(".mindmap-menubar"));
+
     readonlyMember(app, { 
         doc, view, menu, FileFormats, 
-        registerTopicComponent, unregisterTopicComponent, registerTopicEditTiriggerAction, unregisterTopicEditTiriggerAction
+        registerTopicComponent, unregisterTopicComponent, registerTopicEditTiriggerAction, unregisterTopicEditTiriggerAction,
+        registerTopicExtensionFactor, unregisterTopicExtensionFactor,
+        TipKits: Object.assign({}, TipKits, { showWaitDialog })
     });
     appFunctions.registerAction("backupWorkspaceInBrowser", backupWorkspaceInBrowser);
     env.extensionFactors.push(...DefaultTopicExtensions);

@@ -2,7 +2,7 @@
   "name": "felis-mindmap",
   "displayName": "Felis Mindmap",
   "description": "Mindmap editor and viewer in Visual Studio Code",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "publisher": "season-studio",
   "icon": ".webview/logo/felis-mindmap/logo256.png",
   "author": "Season Studio",

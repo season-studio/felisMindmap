@@ -1,0 +1,1 @@
+export const ServiceHost = "https://hub.season-studio.top:14049/report-agent/"

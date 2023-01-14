@@ -4,4 +4,7 @@
 }, {
     "active": true,
     "file": "./addons/markdown.felis"
+}, {
+    "active": true,
+    "file": "./addons/reportAgent.felis"
 }]

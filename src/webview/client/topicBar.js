@@ -52,6 +52,7 @@ const TopicBarPanelXML = `
         border-left: 1px solid #ccc;
         box-sizing: border-box;
         padding: 0px 0px 0px 6px;
+        outline: none;
     }
     .component-item {
         width: 100%;
@@ -66,6 +67,12 @@ const TopicBarPanelXML = `
     }
     .component-item > span {
         margin-left: 5px;
+    }
+    .component-shortcut {
+        text-decoration: underline;
+    }
+    .component-item[d-key-selected] {
+        background-color: #dadada;
     }
     .component-item:hover {
         background-color: #ccc;
@@ -122,7 +129,7 @@ const TopicBarPanelXML = `
         <use href="#icon-arrow-left" width="26" height="26" />
     </g>
     <foreignObject width="170" height="130">
-        <div class="component-list">
+        <div class="component-list" tabindex="0" mmap-event-keydown="onComponentKeydown">
         </div>
     </foreignObject>
 </g>
@@ -131,30 +138,36 @@ const TopicBarPanelXML = `
 const TopicComponentList = [{
     icon: "#icon-picture",
     text: "Picture",
-    contentType: "image"
+    contentType: "image",
+    shortcut: "p"
 }, {
     icon: "#icon-label",
     text: "Labels",
-    contentType: "labels"
+    contentType: "labels",
+    shortcut: "l"
 }, {
     icon: "#icon-notes",
     text: "Notes",
-    contentType: "notes"
+    contentType: "notes",
+    shortcut: "n"
 }, {
     icon: "#icon-flag",
     text: "Task progress",
-    contentType: "task-marker"
+    contentType: "task-marker",
+    shortcut: "g"
 }, {
     icon: "#icon-information",
     text: "Priority",
-    contentType: "priority"
+    contentType: "priority",
+    shortcut: "r"
 }, {
     icon: "#icon-clip",
     text: "Link or Attachment",
-    contentType: "href"
+    contentType: "href",
+    shortcut: "a"
 }];
 
-export function registerTopicComponent(_contentType, _text, _icon) {
+export function registerTopicComponent(_contentType, _text, _icon, _shortcut) {
     let isRepeat = false;
     try {
         TopicComponentList.forEach(item => {
@@ -167,7 +180,8 @@ export function registerTopicComponent(_contentType, _text, _icon) {
     isRepeat || TopicComponentList.push({
         contentType: _contentType,
         text: _text,
-        icon: _icon
+        icon: _icon,
+        shortcut: _shortcut
     });
 }
 
@@ -195,10 +209,22 @@ function initComponentList(_node, _list) {
                     <use href="${item.icon}" width="26" height="26" />
                 </svg>
                 <span>${i18n(item.text || "")}</span>
+                ${item.shortcut ? `<span class="component-shortcut">${String(item.shortcut).toLocaleUpperCase()}</span>` : ""}
             </div>
             `
         );
     })
+}
+
+function selectComponent(_index, _this) {
+    let oldSelectNode = _this.componentPanel.querySelector("[d-key-selected]");
+    oldSelectNode && oldSelectNode.removeAttribute("d-key-selected");
+    let node = _this.componentPanel.querySelector(`div[d-content-type="${TopicComponentList[_index].contentType}"]`);
+    if (node) {
+        _this.componentSelectIndex = _index;
+        node.setAttribute("d-key-selected", "true");
+        node.scrollIntoView();
+    }
 }
 
 const TopicBarPanelOptions = {
@@ -229,8 +255,13 @@ const TopicBarPanelOptions = {
         _opt.env.addEventListener("topic-event-kill-focus", this.onLostFocus);
         this.normalPanel = this.rootNode.querySelector('[d-pname="normal"]');
         this.componentPanel = this.rootNode.querySelector('[d-pname="component"]');
+        this.componentSelectIndex = 0;
         initComponentList(this.componentPanel, TopicComponentList);
         _opt.startComponent ? this.normalPanel.remove() : this.componentPanel.remove();
+        Promise.resolve().then(() => {
+            let compListNode = this.componentPanel.querySelector(".component-list");
+            compListNode && compListNode.focus();
+        });
     },
     onAfterLayout(_opt) {
         const panelBox = this.rootNode.getBBox();
@@ -263,6 +294,10 @@ const TopicBarPanelOptions = {
         this.rootNode.appendChild(this.componentPanel);
         this.normalPanel.remove();
         this.relayout();
+        Promise.resolve().then(() => {
+            let compListNode = this.componentPanel.querySelector(".component-list");
+            compListNode && compListNode.focus();
+        });
     },
     onBackToNormal(_event, _node, _opt, _key) {
         this.rootNode.appendChild(this.normalPanel);
@@ -272,6 +307,63 @@ const TopicBarPanelOptions = {
     onEditComponent(_event, _node, _opt, _key) {
         const topic = _opt.topic;
         (topic instanceof Topic) && topic.notify("topic-event-edit", { triggerContentType:_node.getAttribute("d-content-type"), force: true })
+    },
+    onComponentKeydown(_event, _node, _opt, _key)
+    {
+        let proccessEvent = true;
+        let selectIndex = (Number(this.componentSelectIndex) || 0);
+        if (_event.keyCode == 38)
+        {
+            if (selectIndex > 0)
+            {
+                selectIndex -= 1;
+                selectComponent(selectIndex, this);
+            }
+        }
+        else if (_event.keyCode == 40)
+        {
+            if (selectIndex < TopicComponentList.length - 1)
+            {
+                selectIndex += 1;
+                selectComponent(selectIndex, this);
+            }
+        }
+        else if (_event.keyCode == 13)
+        {
+            let node = this.componentPanel.querySelector(`div[d-content-type="${TopicComponentList[selectIndex].contentType}"]`);
+            node && _opt.onEditComponent(_event, node, _opt, _key);
+        }
+        else if (_event.keyCode == 27)
+        {
+            _opt.topic.notify("topic-event-cancel-edit");
+        }
+        else if (_event.altKey)
+        {
+            let key = _event.key.toLocaleLowerCase();
+            proccessEvent = false;
+            for (let item of TopicComponentList)
+            {
+                if (key === String(item.shortcut).toLocaleLowerCase())
+                {
+                    let node = this.componentPanel.querySelector(`div[d-content-type="${item.contentType}"]`);
+                    if (node) {
+                        _opt.onEditComponent(_event, node, _opt, _key);
+                        proccessEvent = true;
+                        break;
+                    }
+                }
+            }
+        }
+        else
+        {
+            proccessEvent = false;
+        }
+
+        if (proccessEvent)
+        {
+            _event.preventDefault();
+            _event.stopPropagation();
+        }
     }
 };
 

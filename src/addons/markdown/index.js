@@ -177,7 +177,6 @@ async function exportMarkdown() {
 
 addon = {
     async active() {
-        activeExtension = undefined;
         app.registerAction("importMarkdown", importMarkdown);
         app.registerAction("exportMarkdown", exportMarkdown);
         app.menu.registerMenus({

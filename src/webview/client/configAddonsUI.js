@@ -1,7 +1,8 @@
 import { enumerateAddons } from "./addons";
 
 function onCheckboxChange(e) {
-    (e.target instanceof HTMLInputElement) && (this.$activeDefault = e.target.checked);
+    this.dlg.$changeAddon = true;
+    (e.target instanceof HTMLInputElement) && (this.addon.$activeDefault = e.target.checked);
 }
 
 export default function configAddonsUI(_self, _node) {
@@ -11,7 +12,10 @@ export default function configAddonsUI(_self, _node) {
         div.setAttribute("class", "addon-config-item");
         div.insertAdjacentHTML("beforeend", `<input type="checkbox" value="${addon.name}" ${addon.$activeDefault ? "checked" : ""} /><label for="${addon.name}">${addon.name + (addon.desc ? " - " + addon.desc : "")}</label>`);
         let checkbox = div.querySelector("input");
-        checkbox.addEventListener("change", onCheckboxChange.bind(addon));
+        checkbox.addEventListener("change", onCheckboxChange.bind({
+            dlg: _self,
+            addon
+        }));
         doc.appendChild(div);
     }
     _node.insertAdjacentHTML("afterbegin", `<!--template XML-->
