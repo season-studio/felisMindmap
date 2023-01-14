@@ -54,7 +54,13 @@ The shortcuts can be changed in the "Preference" options.
 
 ## Release Notes
 
+### 1.0.2
+
+- Add shortcut supported in creating the components of the topic
+- Add an addon named "Report Agent" for designing and generating a report from mindmap
+
 ### 1.0.1
+
 - Enable customize the shape of the topic box
 - Enhance compatibility in Safari
 

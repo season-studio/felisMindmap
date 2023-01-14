@@ -6,7 +6,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [1.0.2] - 2023-01-15
 
-### Add
+### Added
 
 - Add shortcut supported in creating the components of the topic
 - Add an addon named "Report Agent" for designing and generating a report from mindmap
