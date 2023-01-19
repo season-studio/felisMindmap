@@ -61,5 +61,17 @@ export const localeInfo = {
     },
     "Fail in generating the presentation": {
         "zh-cn": "生成幻灯片失败"
+    },
+    "Upload" : {
+        "zh-cn": "上传"
+    },
+    "Upload Success.\nThe template will be valid after being checked manually for security reason.\nDon\'t upload the same template again.": {
+        "zh-cn": "上传成功\n出于安全因素考虑，上传的模板将在人工审核后可见。\n请勿重复上传相同模板。"
+    },
+    "Uploading Failed": {
+        "zh-cn": "上传模板失败"
+    },
+    "Uploading": {
+        "zh-cn": "正在上传"
     }
 }

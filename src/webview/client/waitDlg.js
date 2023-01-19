@@ -83,7 +83,7 @@ export default function showWaitDialog(_text) {
                 Object.defineProperties(_self, {
                     tip: {
                         get: () => (tipNode ? tipNode.textContent : ""),
-                        set: (_val) => (tipNode && (tipNode.innerHTML = "", tipNode.insertAdjacentHTML("beforeend", String(_val || "").replace("\n", "<br />").replace(/\s/ig, "&nbsp;")))),
+                        set: (_val) => (tipNode && (tipNode.innerHTML = "", tipNode.insertAdjacentHTML("beforeend", String(_val || "").replaceAll("\n", "<br />").replaceAll(/\s/ig, "&nbsp;")))),
                         configurable: false,
                         enumerable: true
                     }

@@ -35,6 +35,22 @@ const TemplateDialogXML = `<!--template XML-->
         flex: 1;
         text-align: left;
     }
+    .template-upload-button {
+        padding: 3px 6px;
+        border-radius: 4px;
+        border: 0px;
+        background-color: #ddd;
+        color: #999;
+        margin-right: 3px;
+        display: flex;
+        justify-content: center;
+        justify-items: center;
+        font-size: 0.7em;
+    }
+    .template-upload-button:hover {
+        background-color: #09f;
+        color: #fff;
+    }
     .template-dialog-close {
         padding: 3px;
         border-radius: 6px;
@@ -149,6 +165,7 @@ const TemplateDialogXML = `<!--template XML-->
     <div class="template-dialog-panel">
         <div class="template-dialog-header">
             <div class="template-dialog-caption">{{Choose a template}}</div>
+            <div class="template-upload-button">{{Upload}}</div>
             <input placeholder="{{Search}}"></input>
             <div class="template-dialog-close">
                 <svg width="22" height="22" viewBox="0 0 96 96" preserveAspectRatio="none">
@@ -207,9 +224,9 @@ async function ListTemplates(_dlg, _rootNode) {
                     let itemDiv = document.createElement("div");
                     itemDiv.$empty = true;
                     itemDiv.setAttribute("class", "template-item");
-                    itemDiv.setAttribute("d-item", item);
+                    itemDiv.setAttribute("d-item", item.id);
                     itemDiv.setAttribute("d-index", index);
-                    itemDiv.insertAdjacentHTML("beforeend", `<div><div class="template-waiting-circle" style="--size:57px; --color:#eee"></div></div><span>${item}</span>`);
+                    itemDiv.insertAdjacentHTML("beforeend", `<div><div class="template-waiting-circle" style="--size:57px; --color:#eee"></div></div><span>${item.name}</span>`);
                     doc.appendChild(itemDiv);
                     _dlg.$observer?.observe(itemDiv);
                 });
@@ -221,7 +238,55 @@ async function ListTemplates(_dlg, _rootNode) {
     }
 }
 
-function OnClick(_event) {
+function OnUploadClick() {
+    const inputElement = document.createElement("input");
+    inputElement.type = "file";
+    inputElement.accept = ".pptx";
+    inputElement.addEventListener("change", async () => { 
+        const files = inputElement.files;
+        if (files.length > 0) {
+            let waitDlg = $felisApp.TipKits.showWaitDialog($T("Uploading", localeInfo) + "...");
+            try
+            {
+                let file = files[0];
+                let name = String(file.name || "").trim();
+                let type = "pptx";
+                if (name) {
+                    let pos = name.lastIndexOf(".");
+                    if (pos > 0) {
+                        type = name.substring(pos + 1);
+                        name = name.substring(0, pos);
+                    }
+                }
+                let resp = await fetch(`${ServiceHost}upload-template?n=${encodeURIComponent(name)}&t=${encodeURIComponent(type)}`, {
+                    method: "POST",
+                    body: file,
+                    header: {
+                        'Content-Type': 'application/octet-stream'
+                    }
+                });
+                if (!resp.ok) {
+                    throw $T("System Error", localeInfo);
+                }
+                let json = await resp.json();
+                if (json.code === 0) {
+                    await $felisApp.TipKits.confirm($T("Upload Success.\nThe template will be valid after being checked manually for security reason.\nDon\'t upload the same template again.", localeInfo), { icon: "info", buttons: ["OK"]});
+                } else {
+                    throw json.msg;
+                }
+            } catch (err) {
+                console.error(err);
+                await $felisApp.TipKits.confirm(`${$T("Uploading Failed", localeInfo)}\n${err instanceof Error ? $T("System Error", localeInfo) : err}`, { icon: "error", buttons: ["OK"]});
+            }
+            finally {
+                waitDlg?.close();
+            }
+        }
+    });
+    inputElement.click();
+}
+
+function OnTemplateClick(_event) {
     let isPreview = false;
     for (let node of _event.composedPath()) {
         if (node.classList.contains("template-item-preview")) {
@@ -254,8 +319,9 @@ const TemplateDialogOptions = {
         }, { once: true });
         _self.$observer = new IntersectionObserver(OnWatchVisiblity);
         ListTemplates(_self, _self.root);
-        _self.$clickFn = OnClick.bind(_self);
-        _self.root.querySelector(".template-list-panel")?.addEventListener("click", _self.$clickFn);
+        _self.$templateClickFn = OnTemplateClick.bind(_self);
+        _self.root.querySelector(".template-list-panel")?.addEventListener("click", _self.$templateClickFn);
+        _self.root.querySelector(".template-upload-button")?.addEventListener("click", OnUploadClick);
         _self.$inputDone = OnKeydown.bind(_self);
         _self.root.querySelector("input")?.addEventListener("keydown", _self.$inputDone);
     },
@@ -265,8 +331,9 @@ const TemplateDialogOptions = {
             _self.$observer = undefined;
             delete _self.$observer;
         }
-        _self.root.querySelector(".template-list-panel")?.removeEventListener("click", _self.$clickFn);
-        _self.$clickFn = undefined;
+        _self.root.querySelector(".template-upload-button")?.removeEventListener("click", OnUploadClick);
+        _self.root.querySelector(".template-list-panel")?.removeEventListener("click", _self.$templateClickFn);
+        _self.$templateClickFn = undefined;
         _self.root.querySelector("input")?.removeEventListener("keydown", _self.$inputDone);
         _self.$inputDone = undefined;
     }
