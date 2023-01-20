@@ -32,7 +32,7 @@ async function generatePresentation() {
             if (!resp.ok) {
                 throw `Response is ${resp.status}: ${resp.statusText}`;
             }
-            let fileName = String(resp.headers.get("x-report-file")||"").trim();
+            let fileName = decodeURIComponent(String(resp.headers.get("x-report-file")||"").trim());
             if (!fileName) {
                 throw `Response without the filename`;
             }
