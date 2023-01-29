@@ -73,5 +73,11 @@ export const localeInfo = {
     },
     "Uploading": {
         "zh-cn": "正在上传"
+    },
+    "All templates are uploaded by netizens.": {
+        "zh-cn": "所有模板均为网友上传。"
+    },
+    "Please contact the administrator for any copyright issues.": {
+        "zh-cn": "如有版权问题，请联系管理员处理。"
     }
 }

@@ -160,6 +160,20 @@ const TemplateDialogXML = `<!--template XML-->
         66%  { transform: rotate(220deg); }
         100% { transform: rotate(360deg); }
     }
+    .template-list-copyright {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #666;
+        flex-direction: column;
+        font-size: 0.7em;
+    }
+    .template-list-copyright a, .template-list-copyright a:hover, .template-list-copyright a:visited {
+        color: #666;
+    }
+    .template-list-copyright a:hover {
+        text-decoration: underline;
+    }
 </style>
 <div class="template-dialog">
     <div class="template-dialog-panel">
@@ -175,6 +189,10 @@ const TemplateDialogXML = `<!--template XML-->
         </div>
         <div class="template-list-panel">
             
+        </div>
+        <div class="template-list-copyright">
+            {{All templates are uploaded by netizens.}}<br />
+            <a href="mailto:season-studio@outlook.com">{{Please contact the administrator for any copyright issues.}}</a>
         </div>
     </div>
 </div>
