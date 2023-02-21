@@ -9,6 +9,10 @@ export const ReportAgentPublicXML = `
         .report-agent-flag > use {
             fill: #fff;
             stroke: none;
+            filter: drop-shadow(0px 0px 1px #000);
+        }
+        [season-topic-focus] .report-agent-flag > use {
+            filter: none;
         }
         .report-agent-flag:hover > rect {
             fill: #fff;

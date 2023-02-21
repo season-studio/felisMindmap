@@ -22,6 +22,7 @@ async function generatePresentation() {
         let waitDlg = $felisApp.TipKits.showWaitDialog($T("Generating presentation...", localeInfo));
         try {
             let blob = await $felisApp.callAction("dumpMindmap-toBlob", ".felis", true);
+            window["$blob"] = blob;
             let resp = await fetch(`${ServiceHost}generate-presentation?t=${encodeURIComponent(template)}`, {
                 method: "POST",
                 body: blob,
@@ -34,7 +35,7 @@ async function generatePresentation() {
             }
             let fileName = decodeURIComponent(String(resp.headers.get("x-report-file")||"").trim());
             if (!fileName) {
-                throw `Response without the filename`;
+                throw "Response without the filename";
             }
             let file = await resp.blob();
             if (file instanceof Blob) {
@@ -47,6 +48,14 @@ async function generatePresentation() {
                     aElement.click();
                     URL.revokeObjectURL(url);
                 }
+                $felisApp.TipKits.confirm(
+                    $T("The presentation has been generated\nThe generation principle of the report agent is to infer the template page closest to the data you provide, and then fill in the content. \nTherefore, there may be situations in the target presentation where the text does not perfectly match the layout. \nYou need to review the target presentation and make some manual adjustments if necessary.", localeInfo), {
+                        icon: "info",
+                        buttons: [$T("OK. I got it.", localeInfo)]
+                    }
+                );
+            } else {
+                throw "The response is not a blob";
             }
         } catch(err) {
             console.error(err);

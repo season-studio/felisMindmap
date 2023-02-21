@@ -1,5 +1,9 @@
 [{
-    "title": "Summary",
+    "title": "工作总结",
     "image": "./templates/SummaryTemplate.png",
     "file": "./templates/SummaryTemplate.felis"
+}, {
+    "title": "设计报告",
+    "image": "./templates/DesignReportTemplate.png",
+    "file" : "./templates/DesignReportTemplate.felis"
 }]

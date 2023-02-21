@@ -79,5 +79,11 @@ export const localeInfo = {
     },
     "Please contact the administrator for any copyright issues.": {
         "zh-cn": "如有版权问题，请联系管理员处理。"
+    },
+    "OK. I got it.": {
+        "zh-cn": "好的，知道了"
+    },
+    "The presentation has been generated\nThe generation principle of the report agent is to infer the template page closest to the data you provide, and then fill in the content. \nTherefore, there may be situations in the target presentation where the text does not perfectly match the layout. \nYou need to review the target presentation and make some manual adjustments if necessary.": {
+        "zh-cn": "报告已生成\n报告助理的生成原理，是推断你选择的模板中与您提供的数据最为接近的页面，然后进行内容填充。\n所以生成结果中可能存在文字并没有完美匹配版面的情况。\n您需要审核一下生成结果，并在必要的时进行一些手动调整。"
     }
 }

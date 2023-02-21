@@ -1,9 +1,15 @@
 import { $T } from "../locale";
 import { colorfulThemeTemplate } from "./colorfulTheme";
+import { darkBlueThemeTemplate } from "./darkBlueTheme";
+import { darkGreenThemeTemplate } from "./darkGreenTheme";
+import { darkOrangeThemeTemplate } from "./darkOrangeTheme";
 import { localeInfo } from "./localeInfo";
 
 const extensionList = {
-    colorful: app.LibMindmap.CreateTopicExtensionFactor(colorfulThemeTemplate)
+    colorful: app.LibMindmap.CreateTopicExtensionFactor(colorfulThemeTemplate),
+    darkBlue: app.LibMindmap.CreateTopicExtensionFactor(darkBlueThemeTemplate),
+    darkGreen: app.LibMindmap.CreateTopicExtensionFactor(darkGreenThemeTemplate),
+    darkOrange: app.LibMindmap.CreateTopicExtensionFactor(darkOrangeThemeTemplate),
 };
 
 let activeExtension = undefined;
@@ -18,6 +24,7 @@ async function changeExternalTheme(_name, _noUpdateConfig) {
     } else {
         await app.hostAdapter.deleteConfiguration("theme");
     }
+    app.env.syncConfig();
     app.view.rootTopic?.render();
 }
 
@@ -44,6 +51,26 @@ addon = {
                 arg: "colorful"
             }]
         }, "addons");
+        app.menu.registerMenus({
+            id: "addons.external-theme.dark",
+            title: $T("Dark Mode", localeInfo),
+            menus: [{
+                id: "addons.external-theme.dark.blue",
+                title: $T("Blue Topic", localeInfo),
+                action: "changeExternalTheme",
+                arg: "darkBlue"
+            }, {
+                id: "addons.external-theme.dark.orange",
+                title: $T("Orange Topic", localeInfo),
+                action: "changeExternalTheme",
+                arg: "darkOrange"
+            }, {
+                id: "addone.external-theme.dark.colorful",
+                title: $T("Green Topic", localeInfo),
+                action: "changeExternalTheme",
+                arg: "darkGreen"
+            }]
+        }, "addons.external-theme");
         app.env.addEventListener("topic-event-refresh-display", refreshDisplay);
         await refreshDisplay();
     },

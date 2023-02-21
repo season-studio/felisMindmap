@@ -54,6 +54,11 @@ The shortcuts can be changed in the "Preference" options.
 
 ## Release Notes
 
+### 1.0.3
+
+- Fix the bug that user can not select text in editor box by mouse.
+- 
+
 ### 1.0.2
 
 - Add shortcut supported in creating the components of the topic
