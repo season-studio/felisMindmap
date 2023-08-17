@@ -64,5 +64,7 @@
 	"The current mindmap is dirty.\nDo you want to save it first?": "当前思维导入已被编辑过。\n您是否要先保存再进行后续操作？",
 	"Shortcuts": "快捷键",
 	"Function": "功能",
-	"Shortcut": "快捷键"
+	"Shortcut": "快捷键",
+    "Graphic Style": "图形样式",
+    "Title Width": "标题宽度"
 }

@@ -54,10 +54,15 @@ The shortcuts can be changed in the "Preference" options.
 
 ## Release Notes
 
+### 1.0.4
+- Support multi-line in the title of the topic
+- Support special the max-width of displaying the title of the topic
+
 ### 1.0.3
 
 - Fix the bug that user can not select text in editor box by mouse.
-- 
+- Add dark mode theme
+- Add report agent addin
 
 ### 1.0.2
 

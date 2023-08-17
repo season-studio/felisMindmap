@@ -1,5 +1,6 @@
 import { MindmapAddinPanel, Topic } from "mindmap.svg.js";
 import { i18n } from "../../thirdpart/toolkits/src/i18n";
+import { activeTopicGraphicStyleDialog } from "./graphicStyleDlg";
 
 const TopicBarPanelXML = `
 <!--template XML-->
@@ -21,8 +22,8 @@ const TopicBarPanelXML = `
         height: 26px !important;
     }
     .topic-bar-tip {
-        display: none;
-        opacity: 0;
+        display: var(--tip-display);
+        opacity: var(--tip-opacity, 0);
         transform: translate(0px, 26px);
     }
     .topic-bar-tip > rect {
@@ -35,9 +36,14 @@ const TopicBarPanelXML = `
         dominant-baseline: text-before-edge;
         fill: #333;
     }
-    .topic-bar-button:hover > .topic-bar-tip {
-        display: unset;
-        opacity: 1;
+    .topic-bar-button {
+        --tip-display: none;
+        --tip-opacity: 0;
+        transition: --tip-opacity 0.5s 1s;
+    }
+    .topic-bar-button:hover {
+        --tip-display: unset;
+        --tip-opacity: 1;
     }
     .component-list {
         overflow-y: scroll;
@@ -121,6 +127,13 @@ const TopicBarPanelXML = `
         <use href="#icon-component" width="26" height="26" />
         <g class="topic-bar-tip" mmap-layout-background="auto">
             <text>Add Content of Topic</text>
+        </g>
+    </g>
+    <rect width="1" height="26" fill="none" stroke="none" />
+    <g class="season-topic-svg-button topic-bar-button" mmap-event-click="onGraphicStyle" mmap-layout-background="auto">
+        <use href="#icon-painter" width="26" height="26" />
+        <g class="topic-bar-tip" mmap-layout-background="auto">
+            <text>Graphic Style</text>
         </g>
     </g>
 </g>
@@ -308,8 +321,11 @@ const TopicBarPanelOptions = {
         const topic = _opt.topic;
         (topic instanceof Topic) && topic.notify("topic-event-edit", { triggerContentType:_node.getAttribute("d-content-type"), force: true })
     },
-    onComponentKeydown(_event, _node, _opt, _key)
-    {
+    onGraphicStyle(_event, _node, _opt, _key) {
+        this.close();
+        activeTopicGraphicStyleDialog(_opt.view, _opt.topic);
+    },
+    onComponentKeydown(_event, _node, _opt, _key) {
         let proccessEvent = true;
         let selectIndex = (Number(this.componentSelectIndex) || 0);
         if (_event.keyCode == 38)
