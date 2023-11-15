@@ -9,6 +9,16 @@ import FelisDB from "felisdb";
 let host = undefined;
 let docFilePath = "";
 
+export async function openWebPage(_url) {
+    if (host) {
+        await host.sendMessage("openBrowser", {
+            url: String(_url)
+        });
+    } else {
+        window.open(String(_url), "_blank");
+    }
+}
+
 export async function loadFromFile(_filePath) {
     if (host) {
         let getRet = await host.sendMessage("loadFromFile", { filePath: _filePath });

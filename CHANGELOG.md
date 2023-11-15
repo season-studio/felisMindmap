@@ -4,6 +4,18 @@ All notable changes to the "felisMindmap" extension will be documented in this f
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.0.5] - 2023-11-15
+
+### Added
+
+- Add the exporting and importing features for the preference
+- The shortcuts of moving the focus between the topic can be modified (for issue #6)
+
+### Fixed
+
+- Fix the issue #5
+- Fix the bug that the link can not be opened in the vscode environment
+
 ## [1.0.2] - 2023-02-21
 
 ### Added

@@ -182,6 +182,10 @@ module.exports = class FelisMindmapDocument {
         (filePath instanceof Array) && (filePath.length > 0) && vscode.commands.executeCommand("vscode.openWith", vscode.Uri.file(filePath[0]), packageInfo.contributes.customEditors[0].viewType);
     }
 
+    openBrowser(_msg) {
+        return vscode.env.openExternal(vscode.Uri.parse(_msg.url));
+    }
+
     /**
      * Read data from a file indicated by _msg.filePath.
      * If the filePath is undefined, this function read the data of the current document
@@ -202,7 +206,7 @@ module.exports = class FelisMindmapDocument {
         if (path) {
             const buffer = fs.readFileSync(path, {encoding: null});
             return {
-                result: ((buffer.length <= 0) ? undefined : buffer.buffer),
+                result: ((buffer.length <= 0) ? undefined : new Uint8Array(buffer)),
                 forceType
             };
         }

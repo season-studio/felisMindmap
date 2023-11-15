@@ -133,7 +133,7 @@ const TopicBarPanelXML = `
     <g class="season-topic-svg-button topic-bar-button" mmap-event-click="onGraphicStyle" mmap-layout-background="auto">
         <use href="#icon-painter" width="26" height="26" />
         <g class="topic-bar-tip" mmap-layout-background="auto">
-            <text>Graphic Style</text>
+            <text>Edit Graphic Style</text>
         </g>
     </g>
 </g>

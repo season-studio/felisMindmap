@@ -54,6 +54,12 @@ The shortcuts can be changed in the "Preference" options.
 
 ## Release Notes
 
+### 1.0.5
+- Add the exporting and importing features for the preference
+- The shortcuts of moving the focus between the topic can be modified (for issue #6)
+- Fix the issue #5
+- Fix the bug that the link can not be opened in the vscode environment
+
 ### 1.0.4
 - Support multi-line in the title of the topic
 - Support special the max-width of displaying the title of the topic

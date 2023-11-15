@@ -65,6 +65,20 @@
 	"Shortcuts": "快捷键",
 	"Function": "功能",
 	"Shortcut": "快捷键",
-    "Graphic Style": "图形样式",
-    "Title Width": "标题宽度"
+    "Edit Graphic Style": "编辑图形样式",
+    "Title Width": "标题宽度",
+    "Goto Left Topic": "选中左侧主题",
+    "Goto Right Topic": "选中右侧主题",
+    "Goto Previous Sibling": "选中上一个兄弟主题",
+    "Goto Next Sibling": "选中下一个兄弟主题",
+    "Export": "导出",
+    "Import": "导入",
+    "Get Preset": "获取预设",
+    "Close": "关闭",
+    "The preset incorrect!": "预设数据不正确！",
+    "Nothing can be export.": "没有可导出的内容",
+    "OK": "确认",
+    "Choose export content:": "选择要导出的内容",
+    "Nothing exported.": "没有导出任何内容",
+    "Preet imported.": "预设已导入"
 }

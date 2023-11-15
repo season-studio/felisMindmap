@@ -13,6 +13,7 @@ import tip from "../../thirdpart/toolkits/src/tip/tip";
 import { getConfiguration, getDocumentFilePath, newMindmap, notifySaveByHost, openMindmap, saveToFile, setConfiguration, setDocumentFilePath, writeToFile } from "../common/hostAdapter";
 import { showConfigUI } from "./configUI";
 import showWaitDialog from "./waitDlg";
+import { activeTopicGraphicStyleDialog } from "./graphicStyleDlg";
 
 function tipNeedFocusTopic() {
     tip(i18n("Must select a topic first"), {
@@ -113,6 +114,26 @@ export class MenuManager {
             action: "deleteTopic",
             shortcut: "Delete"
         }, {}, {
+            id: "edit.tolefttopic",
+            title: "Goto Left Topic",
+            action: "gotoLeftTopic",
+            shortcut: "ArrowLeft"
+        }, {
+            id: "edit.torighttopic",
+            title: "Goto Right Topic",
+            action: "gotoRightTopic",
+            shortcut: "ArrowRight"
+        }, {
+            id: "edit.toprevtopic",
+            title: "Goto Previous Sibling",
+            action: "gotoPrevSibling",
+            shortcut: "ArrowUp"
+        }, {
+            id: "edit.tonexttopic",
+            title: "Goto Next Sibling",
+            action: "gotoNextSibling",
+            shortcut: "ArrowDown"
+        }, {}, {
             id: "edit.title",
             title: "Edit Topic's Title",
             action: "editTopicTitle",
@@ -122,6 +143,10 @@ export class MenuManager {
             title: "Edit Topic's Components",
             action: "editComponents",
             shortcut: "F10"
+        }, {
+            id: "edit.graphicstyle",
+            title: "Edit Graphic Style",
+            action: "editGraphicStyle",
         }]
     }, {
         id: "view",
@@ -447,6 +472,41 @@ export class MenuManager {
         $felisApp.env.fireEvent("topic-event-cancel-edit");
         $felisApp.view.focusTopic
             ? activeTopicBar($felisApp.view, true)
+            : tipNeedFocusTopic();
+    }
+
+    static ["@@editGraphicStyle"]() {
+        $felisApp.env.fireEvent("topic-event-cancel-edit");
+        $felisApp.view.focusTopic
+            ? activeTopicGraphicStyleDialog($felisApp.view, $felisApp.view.focusTopic)
+            : tipNeedFocusTopic();
+    }
+
+    static ["@@gotoLeftTopic"]() {
+        $felisApp.env.fireEvent("topic-event-cancel-edit");
+        $felisApp.view.focusTopic
+            ? $felisApp.view["goto-topic-with-direction"](null, "left")
+            : tipNeedFocusTopic();
+    }
+
+    static ["@@gotoRightTopic"]() {
+        $felisApp.env.fireEvent("topic-event-cancel-edit");
+        $felisApp.view.focusTopic
+            ? $felisApp.view["goto-topic-with-direction"](null, "right")
+            : tipNeedFocusTopic();
+    }
+
+    static ["@@gotoPrevSibling"]() {
+        $felisApp.env.fireEvent("topic-event-cancel-edit");
+        $felisApp.view.focusTopic
+            ? $felisApp.view.gotoPreviousSiblingTopic()
+            : tipNeedFocusTopic();
+    }
+
+    static ["@@gotoNextSibling"]() {
+        $felisApp.env.fireEvent("topic-event-cancel-edit");
+        $felisApp.view.focusTopic
+            ? $felisApp.view.gotoNextSiblingTopic()
             : tipNeedFocusTopic();
     }
 

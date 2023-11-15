@@ -16,4 +16,8 @@ export class CustomEnvironment extends MindmapEnvironment {
         })
         this.#dragContext = undefined;
     }
+
+    activeLink(_url) {
+        _url && $felisApp.hostAdapter.openWebPage(String(_url));
+    }
 }

@@ -20,7 +20,7 @@ function showEditShortcut(_container, _global) {
         } else if (String(e.key).toLocaleLowerCase() === "backspace") {
             div.textContent = (shortcut = "");
         } else {
-            div.textContent = (shortcut = MindmapViewer.getContrlMapKey(e, true));
+            div.textContent = (shortcut = MindmapViewer.getControlMapKey(e, true));
         }
         e.preventDefault();
         e.stopPropagation();
@@ -80,10 +80,31 @@ export default function configShortcutUI(_self, _node) {
         }
         .shortcut-table tr, .shortcut-table th, .shortcut-table td {
             border: none;
+            background: transparent;
+        }
+        .shortcut-table tr:hover {
+            background: #eaf7ff;
         }
         .shortcut-item:hover {
             box-shadow: 0 0 5px #5af;
         }
     </style>`);
     _node.appendChild(table);
+}
+
+export function exportShortcuts(_self) {
+    let ret = {};
+    for (let menu of $felisApp.menu.enumerateMenus()) {
+        ret[menu.id] = menu.shortcut;
+    }
+    return ret;
+}
+
+export async function importShortcuts(_self, _preset) {
+    for (let id in _preset) {
+        let shortcut = _preset[id];
+        let node = _self.root.querySelector(`td.shortcut-item[d-menu-id="${id}"]`);
+        node && (node.textContent = (shortcut||""));
+        await $felisApp.menu.updateMenu(id, { shortcut });
+    }
 }

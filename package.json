@@ -2,7 +2,7 @@
   "name": "felis-mindmap",
   "displayName": "Felis Mindmap",
   "description": "Mindmap editor and viewer in Visual Studio Code",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "publisher": "season-studio",
   "icon": ".webview/logo/felis-mindmap/logo256.png",
   "author": "Season Studio",
@@ -98,7 +98,7 @@
     "felisdb": "^1.0.1",
     "jszip": "^3.10.1",
     "marked": "^4.1.0",
-    "mindmap.svg.js": "^1.0.6"
+    "mindmap.svg.js": "^1.0.7"
   },
   "bundleConfigs": {
     "configFile": "./.rollup/bundleConfig.js",
